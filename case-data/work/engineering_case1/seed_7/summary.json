@@ -1,0 +1,290 @@
+{
+  "scope": "engineering completion, NOT faithful recovery of unpublished S6",
+  "mission_anchor": "shared VGP route for coordinators; rendezvous root at VGP-200m until leader-connected, then component lattice offset; weight=1",
+  "initial_guess_seed": 7,
+  "event_seed": 1,
+  "outcome": "target_region_reached",
+  "end_time": 60.6,
+  "failure": null,
+  "formation_acceptance": true,
+  "tail_10s_pass": true,
+  "final_metrics": {
+    "time": 60.6,
+    "max_speed_error": 3.069544618483633e-12,
+    "max_yaw_degrees": 2.5444437451708134e-14,
+    "max_edge_distance_error": 9.094947017729282e-13,
+    "max_slot_error": 9.099386826154683e-13,
+    "all_connected": true,
+    "min_pair_distance": 199.9999999999991,
+    "closest_pair": "[\"UAV-2\", \"UAV-6\"]"
+  },
+  "tail_max_speed_error": 6.622258297284134e-12,
+  "tail_max_yaw_degrees": 2.5444437451708134e-14,
+  "tail_max_edge_distance_error": 1.8189894035458565e-12,
+  "minimum_sampled_separation": {
+    "time": 11.1,
+    "max_speed_error": 7.548893401581807,
+    "max_yaw_degrees": 3.1803246689324176,
+    "max_edge_distance_error": 81.92739214141577,
+    "max_slot_error": 92.5649936563143,
+    "all_connected": true,
+    "min_pair_distance": 118.07260785858423,
+    "closest_pair": "[\"UAV-4\", \"UAV-6\"]"
+  },
+  "lost_link_samples": 0,
+  "constraints": "PASS on executed controls/states",
+  "topology": {
+    "status": "running",
+    "adjacency": {
+      "UAV-1": [
+        "UAV-2",
+        "UAV-3"
+      ],
+      "UAV-2": [
+        "UAV-1",
+        "UAV-3",
+        "UAV-6"
+      ],
+      "UAV-3": [
+        "UAV-1",
+        "UAV-2",
+        "UAV-4",
+        "UAV-6"
+      ],
+      "UAV-4": [
+        "UAV-3",
+        "UAV-5",
+        "UAV-6"
+      ],
+      "UAV-5": [
+        "UAV-4"
+      ],
+      "UAV-6": [
+        "UAV-2",
+        "UAV-3",
+        "UAV-4",
+        "UAV-7"
+      ],
+      "UAV-7": [
+        "UAV-6"
+      ]
+    },
+    "roles": {
+      "UAV-1": {
+        "role": "leader",
+        "coordinator": "UAV-3",
+        "slot": 1,
+        "relay_to": null,
+        "relay_slot": null,
+        "relay_offset": null,
+        "relay_updates": 0
+      },
+      "UAV-2": {
+        "role": "coordinator",
+        "coordinator": null,
+        "slot": null,
+        "relay_to": null,
+        "relay_slot": null,
+        "relay_offset": null,
+        "relay_updates": 0
+      },
+      "UAV-3": {
+        "role": "coordinator",
+        "coordinator": null,
+        "slot": null,
+        "relay_to": null,
+        "relay_slot": null,
+        "relay_offset": null,
+        "relay_updates": 0
+      },
+      "UAV-4": {
+        "role": "coordinator",
+        "coordinator": null,
+        "slot": null,
+        "relay_to": null,
+        "relay_slot": null,
+        "relay_offset": null,
+        "relay_updates": 0
+      },
+      "UAV-5": {
+        "role": "follower",
+        "coordinator": "UAV-4",
+        "slot": 4,
+        "relay_to": null,
+        "relay_slot": null,
+        "relay_offset": null,
+        "relay_updates": 0
+      },
+      "UAV-6": {
+        "role": "coordinator",
+        "coordinator": null,
+        "slot": null,
+        "relay_to": null,
+        "relay_slot": null,
+        "relay_offset": null,
+        "relay_updates": 0
+      },
+      "UAV-7": {
+        "role": "coordinator",
+        "coordinator": null,
+        "slot": null,
+        "relay_to": null,
+        "relay_slot": null,
+        "relay_offset": null,
+        "relay_updates": 0
+      }
+    },
+    "events": [
+      {
+        "event": "S2",
+        "agents": [
+          "UAV-4",
+          "UAV-5"
+        ],
+        "status": "handled",
+        "detail": "engineering atomic role/slot transaction"
+      },
+      {
+        "event": "S5",
+        "agents": [
+          "UAV-2",
+          "UAV-6"
+        ],
+        "status": "handled",
+        "detail": "engineering atomic role/slot transaction"
+      },
+      {
+        "event": "S6",
+        "agents": [
+          "UAV-3",
+          "UAV-6"
+        ],
+        "status": "handled",
+        "detail": "reciprocal slots; component lattice non-overlap checked"
+      },
+      {
+        "event": "S6",
+        "agents": [
+          "UAV-3",
+          "UAV-4"
+        ],
+        "status": "handled",
+        "detail": "reciprocal slots; component lattice non-overlap checked"
+      },
+      {
+        "event": "S6",
+        "agents": [
+          "UAV-4",
+          "UAV-6"
+        ],
+        "status": "handled",
+        "detail": "reciprocal slots; component lattice non-overlap checked"
+      }
+    ],
+    "assignment_history": [
+      {
+        "follower_id": "UAV-5",
+        "old_coordinator": null,
+        "new_coordinator": "UAV-4",
+        "slot": 4,
+        "reason": "S2"
+      }
+    ],
+    "rng_seed": 1,
+    "formation_result": "not evaluated",
+    "valid_links": [
+      {
+        "coordinator": "UAV-2",
+        "neighbor": "UAV-3",
+        "slot": 3
+      },
+      {
+        "coordinator": "UAV-2",
+        "neighbor": "UAV-6",
+        "slot": 4
+      },
+      {
+        "coordinator": "UAV-3",
+        "neighbor": "UAV-1",
+        "slot": 1
+      },
+      {
+        "coordinator": "UAV-3",
+        "neighbor": "UAV-2",
+        "slot": 6
+      },
+      {
+        "coordinator": "UAV-3",
+        "neighbor": "UAV-4",
+        "slot": 4
+      },
+      {
+        "coordinator": "UAV-3",
+        "neighbor": "UAV-6",
+        "slot": 5
+      },
+      {
+        "coordinator": "UAV-4",
+        "neighbor": "UAV-3",
+        "slot": 1
+      },
+      {
+        "coordinator": "UAV-4",
+        "neighbor": "UAV-5",
+        "slot": 4
+      },
+      {
+        "coordinator": "UAV-4",
+        "neighbor": "UAV-6",
+        "slot": 6
+      },
+      {
+        "coordinator": "UAV-6",
+        "neighbor": "UAV-2",
+        "slot": 1
+      },
+      {
+        "coordinator": "UAV-6",
+        "neighbor": "UAV-3",
+        "slot": 2
+      },
+      {
+        "coordinator": "UAV-6",
+        "neighbor": "UAV-4",
+        "slot": 3
+      },
+      {
+        "coordinator": "UAV-6",
+        "neighbor": "UAV-7",
+        "slot": 5
+      },
+      {
+        "coordinator": "UAV-7",
+        "neighbor": "UAV-6",
+        "slot": 2
+      }
+    ]
+  },
+  "solver_calls": 1404,
+  "solver_failures": [
+    {
+      "role": "follower",
+      "status": "Maximum_Iterations_Exceeded",
+      "success": false,
+      "iterations": 500,
+      "attempts": [
+        {
+          "status": "Maximum_Iterations_Exceeded",
+          "success": false
+        },
+        {
+          "status": "Maximum_Iterations_Exceeded",
+          "success": false
+        }
+      ],
+      "seconds_excluding_model_build": 0.7877130000006218,
+      "accepted_feasible_best_effort": true,
+      "unmodified_position_cost": 48.08307202649662
+    }
+  ]
+}

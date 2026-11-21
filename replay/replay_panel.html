@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>七机编队回放</title>
+<style>
+  :root {
+    color-scheme: dark; --page: #11181f; --card: #1b2630; --line: #334551;
+    --text: #ecf2f5; --muted: #adbeca; --accent: #83d7cf;
+    font-family: "Microsoft YaHei UI", "Noto Sans CJK SC", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--text); }
+  main { max-width: 850px; margin: auto; padding: clamp(14px, 3vw, 30px); }
+  header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  h1 { margin: 0 0 16px; font-size: clamp(20px, 4vw, 26px); }
+  h2 { margin: 0 0 12px; font-size: 15px; }
+  p { margin: 0; }
+  .muted, small { color: var(--muted); font-size: 12px; }
+  .card { margin-bottom: 12px; padding: 15px; border: 1px solid var(--line);
+    border-radius: 12px; background: var(--card); }
+  .controls, .row, .event { display:flex; align-items:center; gap:8px; }
+  .controls { flex-wrap: wrap; }
+  .row { justify-content: space-between; gap: 12px; }
+  button { appearance: none; font: inherit; font-size: 13px; color: var(--text);
+    background: #24343e; border: 1px solid #47616e; padding: 8px 11px;
+    border-radius: 6px; cursor: pointer; }
+  button:hover:not(:disabled) { background: #34505b; }
+  button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button:disabled, input:disabled { opacity: .55; cursor: default; }
+  #toggle { min-width: 85px; border-color: transparent; background: var(--accent); color: #122c2c; font-weight: 700; }
+  #toggle:hover:not(:disabled) { background: #a3e9e1; }
+  #seek { width: 100%; accent-color: var(--accent); margin: 16px 0 8px; }
+  .time, .measure, .event-time { font-variant-numeric: tabular-nums; }
+  .time { font-size: 17px; font-weight: 650; }
+  .cards { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .measure { color: var(--accent); font-size: 26px; font-weight: 750; margin-bottom: 4px; }
+  #last-event { margin-top: 10px; overflow-wrap: anywhere; }
+  #roles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .role { font-size: 13px; white-space: nowrap; }
+  .dot { display: inline-block; margin-right: 6px; width: 7px; height: 7px; border-radius: 50%; }
+  .event { width: 100%; margin-bottom: 6px; justify-content: space-between; text-align: left; }
+  .event[aria-current="true"] { border-color: var(--accent); }
+  #error { min-height: 18px; color: #ffba9d; margin-top: 5px; font-size: 13px; }
+  @media (max-width: 430px) { .cards { grid-template-columns: 1fr; gap: 0; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>七机编队回放</h1>
+    <span id="dataset" class="muted">正在连接</span>
+  </header>
+
+  <section class="card" aria-label="播放控制">
+    <div class="controls">
+      <button id="previous" disabled>上一帧</button>
+      <button id="toggle" disabled>暂停</button>
+      <button id="next" disabled>下一帧</button>
+    </div>
+    <input id="seek" type="range" min="0" max="0" step="1" value="0" aria-label="选择回放帧" disabled>
+    <div class="row">
+      <p id="time" class="time">— s</p>
+      <span id="frame" class="muted">— 帧</span>
+    </div>
+    <p id="error" role="status"></p>
+  </section>
+
+  <div class="cards">
+    <section class="card" aria-labelledby="pair-title">
+      <h2 id="pair-title">最近机对</h2>
+      <p id="distance" class="measure">— m</p>
+      <p id="closest" class="muted">等待数据</p>
+      <p id="last-event" class="muted">暂无编队事件</p>
+    </section>
+    <section class="card" aria-labelledby="roles-title">
+      <h2 id="roles-title">当前角色</h2>
+      <div id="roles"></div>
+    </section>
+  </div>
+
+  <section class="card" aria-labelledby="events-title">
+    <h2 id="events-title">编队事件</h2>
+    <div id="events"></div>
+    <small>点击事件，暂停并跳到对应采样帧。</small>
+  </section>
+</main>
+<script>
+  const byId = id => document.getElementById(id);
+  const controls = ["previous", "toggle", "next"].map(byId);
+  const seek = byId("seek");
+  const roleStyles = {
+    leader: ["领机", "#ffb840"],
+    coordinator: ["协调机", "#69dbff"],
+    follower: ["跟随机", "#59e8a6"],
+    single: ["自由机", "#c2a3fa"],
+  };
+  let metadata, state, pending = false, preview = false, revision = 0;
+
+  async function request(path, options) {
+    const res = await fetch(path, { signal: AbortSignal.timeout(2500), ...options });
+    if (!res.ok) throw Error("回放服务返回 " + res.status);
+    return res.json();
+  }
+
+  const describe = event => event.code + " · " + event.agents.join(" / ");
+
+  function render(nextState) {
+    state = nextState;
+    byId("toggle").textContent = state.playing ? "暂停" : "继续播放";
+    controls.forEach(el => el.disabled = pending);
+    seek.disabled = pending;
+    if (!preview) {
+      seek.value = state.frame;
+      byId("time").textContent = state.time.toFixed(1) + " s";
+      byId("frame").textContent = "第 " + (state.frame + 1) + " / " + metadata.times.length + " 帧";
+    }
+    const sample = state.sample_time.toFixed(1);
+    byId("distance").textContent = state.distance.toFixed(1) + " m";
+    byId("closest").textContent = state.closest.join(" ↔ ") + " · 采样于 " + sample + " s";
+    byId("last-event").textContent = state.last_events.length
+      ? "最近事件 · " + state.last_event_time.toFixed(1) + " s · " + state.last_events.map(describe).join("；")
+      : "暂无编队事件";
+    byId("roles").replaceChildren(...Object.entries(state.roles).map(([uid, role]) => {
+      const [name, color] = roleStyles[role] || [role, "#acbfcb"];
+      const row = document.createElement("div");
+      const dot = document.createElement("span");
+      row.className = "role";
+      dot.className = "dot";
+      dot.style.background = color;
+      row.append(dot, uid + " " + name);
+      return row;
+    }));
+    for (const el of byId("events").querySelectorAll("button")) {
+      el.disabled = pending;
+      el.setAttribute("aria-current", Number(el.dataset.frame) === state.frame ? "true" : "false");
+    }
+  }
+
+  async function send(action, frame) {
+    if (!state || pending) return;
+    pending = true;
+    preview = false;
+    revision++;
+    render(state);
+    try {
+      state = await request("/api/control", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action, frame }),
+      });
+      byId("error").textContent = "";
+    } catch {
+      byId("error").textContent = "控制指令未发送。请检查回放终端是否仍在运行。";
+    } finally {
+      pending = false;
+      render(state);
+    }
+  }
+
+  async function refresh() {
+    const before = revision;
+    if (!pending) {
+      try {
+        if (!metadata) {
+          metadata = await request("/api/case");
+          byId("dataset").textContent = "Case 1 · seed " + metadata.seed;
+          seek.max = metadata.times.length - 1;
+          byId("events").replaceChildren(...metadata.events.map(event => {
+            const button = document.createElement("button");
+            const label = document.createElement("span");
+            const time = document.createElement("span");
+            button.className = "event";
+            button.dataset.frame = event.frame;
+            label.textContent = describe(event);
+            time.className = "event-time";
+            time.textContent = event.time.toFixed(1) + " s";
+            button.append(label, time);
+            button.onclick = () => send("seek", event.frame);
+            return button;
+          }));
+        }
+        const data = await request("/api/state");
+        if (before === revision && !pending) {
+          byId("error").textContent = "";
+          render(data);
+        }
+      } catch {
+        if (before === revision) byId("error").textContent = "等待回放服务。请检查 Ubuntu 终端。";
+      }
+    }
+    setTimeout(refresh, 220);
+  }
+
+  byId("previous").onclick = () => send("previous");
+  byId("next").onclick = () => send("next");
+  byId("toggle").onclick = () => send(state.playing ? "pause" : "play");
+  seek.oninput = () => {
+    preview = true;
+    byId("time").textContent = metadata.times[Number(seek.value)].toFixed(1) + " s";
+    byId("frame").textContent = "跳转预览";
+  };
+  seek.onchange = () => send("seek", Number(seek.value));
+  refresh();
+</script>
+</body>
+</html>

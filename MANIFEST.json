@@ -1,0 +1,163 @@
+{
+  "archive": "seven-uav-ros2-rviz-2026-11-21",
+  "upstream_archive": "uav_dmpc_learning_baseline_2026-11-09.zip",
+  "upstream_sha256": "49de4b4ad3032bc2b29de4e1be6a2138741ae87d3caf3e62f04c903a44f38c07",
+  "files": {
+    "README.md": {
+      "size": 3359,
+      "sha256": "39f5adbc92d0f9d981072ba814fa5db519acaf8ab4ae3dfdd3c0862444e35cef"
+    },
+    "VERIFICATION.json": {
+      "size": 1022,
+      "sha256": "ecf0ffd0bae185a0ac5bfe464297879e132837eb44d64c06600a5b1f2918794f"
+    },
+    "case-data/outputs/matlab/seed_10/topology.csv": {
+      "size": 52881,
+      "sha256": "d37d620544e1996785d2e1ece5e70895957894a80b5c8d8d55d3d69567bf68ca"
+    },
+    "case-data/outputs/matlab/seed_10/topology_provenance.json": {
+      "size": 550,
+      "sha256": "07163740f536e5e7aed73b56538c59687beff5899c6644e83e6ef75ecdfdb0e3"
+    },
+    "case-data/outputs/matlab/seed_11/topology.csv": {
+      "size": 52881,
+      "sha256": "d37d620544e1996785d2e1ece5e70895957894a80b5c8d8d55d3d69567bf68ca"
+    },
+    "case-data/outputs/matlab/seed_11/topology_provenance.json": {
+      "size": 550,
+      "sha256": "a9fcf16b2268c4fd4c3eb5174c0854282b123b299ea369688c64ee6affda3193"
+    },
+    "case-data/outputs/matlab/seed_7/topology.csv": {
+      "size": 52881,
+      "sha256": "d37d620544e1996785d2e1ece5e70895957894a80b5c8d8d55d3d69567bf68ca"
+    },
+    "case-data/outputs/matlab/seed_7/topology_provenance.json": {
+      "size": 549,
+      "sha256": "4a7a9bbf5d365d5643673d9dcdd5a9be5b5828de5216146391819e471242b543"
+    },
+    "case-data/outputs/matlab/seed_8/topology.csv": {
+      "size": 52881,
+      "sha256": "d37d620544e1996785d2e1ece5e70895957894a80b5c8d8d55d3d69567bf68ca"
+    },
+    "case-data/outputs/matlab/seed_8/topology_provenance.json": {
+      "size": 549,
+      "sha256": "aae403453a91a42daef597dcb44840e8f36e472bc0c53c3be9896169b2057f21"
+    },
+    "case-data/outputs/matlab/seed_9/topology.csv": {
+      "size": 52881,
+      "sha256": "d37d620544e1996785d2e1ece5e70895957894a80b5c8d8d55d3d69567bf68ca"
+    },
+    "case-data/outputs/matlab/seed_9/topology_provenance.json": {
+      "size": 549,
+      "sha256": "9bceabcf9901db8dea483adeac9d2ae7deb696f2e0e1ce8dea8203909b5c5db4"
+    },
+    "case-data/work/engineering_case1/seed_10/events.csv": {
+      "size": 491,
+      "sha256": "2f9942ff558d9e1935769fa1707fff2efa9862fcb46f864fa7395e97c4f0c680"
+    },
+    "case-data/work/engineering_case1/seed_10/metrics.csv": {
+      "size": 27952,
+      "sha256": "a627a1e718811346e6b460b4580110cddf05b40f4ef4664283bc375c141ddc41"
+    },
+    "case-data/work/engineering_case1/seed_10/states.csv": {
+      "size": 234295,
+      "sha256": "d500fea75417e9d605a216625fc6f719277a60fa16f5b121a44b17dd5a3e702c"
+    },
+    "case-data/work/engineering_case1/seed_10/summary.json": {
+      "size": 6981,
+      "sha256": "02ef8133d14c932158e15b2595f7e356fdb2fcdefdb124b19c7299549cd41472"
+    },
+    "case-data/work/engineering_case1/seed_11/events.csv": {
+      "size": 491,
+      "sha256": "2f9942ff558d9e1935769fa1707fff2efa9862fcb46f864fa7395e97c4f0c680"
+    },
+    "case-data/work/engineering_case1/seed_11/metrics.csv": {
+      "size": 28310,
+      "sha256": "6615f5cbf19fca7b0e153e3ffcbe1528fd4f6754702a88a765f24f5893291f32"
+    },
+    "case-data/work/engineering_case1/seed_11/states.csv": {
+      "size": 227476,
+      "sha256": "1a15e1f425f81f46d888470a4f48000ffb3efba0d1397d908fd4f505c859a6a1"
+    },
+    "case-data/work/engineering_case1/seed_11/summary.json": {
+      "size": 6984,
+      "sha256": "8467dbd8ab8467e2536d44d0997fe8009422c2c698892926a8d4175711b95e7c"
+    },
+    "case-data/work/engineering_case1/seed_7/events.csv": {
+      "size": 491,
+      "sha256": "2f9942ff558d9e1935769fa1707fff2efa9862fcb46f864fa7395e97c4f0c680"
+    },
+    "case-data/work/engineering_case1/seed_7/metrics.csv": {
+      "size": 28055,
+      "sha256": "8ccd22f354b48df7929a465fb24afb78208a186d7dd863bbe7119d377b9d4cef"
+    },
+    "case-data/work/engineering_case1/seed_7/states.csv": {
+      "size": 227129,
+      "sha256": "06cb7e1bf0cc0a979185751b0731f447963ff810cc58aea62b67284dc92cdfc8"
+    },
+    "case-data/work/engineering_case1/seed_7/summary.json": {
+      "size": 6983,
+      "sha256": "51b8566e0b0749e763eca0a22d8d9ae96e60adce104e600f0ae4e59f9ca443ba"
+    },
+    "case-data/work/engineering_case1/seed_8/events.csv": {
+      "size": 491,
+      "sha256": "2f9942ff558d9e1935769fa1707fff2efa9862fcb46f864fa7395e97c4f0c680"
+    },
+    "case-data/work/engineering_case1/seed_8/metrics.csv": {
+      "size": 28232,
+      "sha256": "e5b5582fe05dc75280d394c4592dfabde4d7bd19e20a281a6ce79a5f50de42c0"
+    },
+    "case-data/work/engineering_case1/seed_8/states.csv": {
+      "size": 233544,
+      "sha256": "962312c678ad2b4bc90e5de4f1e7a07692e41730fdde74deeb6815cb3cff2e6a"
+    },
+    "case-data/work/engineering_case1/seed_8/summary.json": {
+      "size": 6981,
+      "sha256": "519d02ca911652b4c12fcbc7b326fc1b42c353b62f2d20594a583515918484e5"
+    },
+    "case-data/work/engineering_case1/seed_9/events.csv": {
+      "size": 491,
+      "sha256": "2f9942ff558d9e1935769fa1707fff2efa9862fcb46f864fa7395e97c4f0c680"
+    },
+    "case-data/work/engineering_case1/seed_9/metrics.csv": {
+      "size": 27890,
+      "sha256": "c65c1db865ba4b036dfa93966420f90c8d070b399ef96e387853e6c5ea85310b"
+    },
+    "case-data/work/engineering_case1/seed_9/states.csv": {
+      "size": 233007,
+      "sha256": "5c4db805d3e3935b88594f4ba42c630a539cf0f577c959bb1588596c175de870"
+    },
+    "case-data/work/engineering_case1/seed_9/summary.json": {
+      "size": 6983,
+      "sha256": "a02eea420f97fbcd9159b30219e6fa0686f3fa8c37198997992ba4d66f08d8ef"
+    },
+    "replay/case1.rviz": {
+      "size": 2019,
+      "sha256": "8847e30836c697b56bae1e8afaeae7b5d4ebbe33694d9708a65e35ea00a3d65b"
+    },
+    "replay/fixed_wing.obj": {
+      "size": 5565,
+      "sha256": "829e7506c655a7ae5e5f55a3cb1b2b8407f744e7186db41ca894136e4f8e7ba6"
+    },
+    "replay/mavic_rotor.dae": {
+      "size": 6570,
+      "sha256": "25cd23b348cee299a82dee3b335649256baacdb4400d246c19fea4367eb940f5"
+    },
+    "replay/mavic_style.dae": {
+      "size": 43513,
+      "sha256": "bdc7b58257d256044a0923d8361cc37949c81c6b056c3ce8048cce0aa3f760d5"
+    },
+    "replay/replay_case1.py": {
+      "size": 16442,
+      "sha256": "6ab701dd1e10c315474aca779d60fb9c44de30c22b3be003eae0857135a76f35"
+    },
+    "replay/replay_controls.py": {
+      "size": 5764,
+      "sha256": "4edbb2788404e50e11a203f4ffc79adec8029e872579853c959fe61996256a40"
+    },
+    "replay/replay_panel.html": {
+      "size": 8579,
+      "sha256": "873e6a0dc110d0fcf226b646392ea4142cf8c8b0fc1c53fe10dfca4072967e08"
+    }
+  }
+}

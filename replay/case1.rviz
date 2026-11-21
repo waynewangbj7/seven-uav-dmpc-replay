@@ -1,0 +1,88 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Distance grid (250 m)
+      Enabled: false
+      Value: false
+      Cell Size: 250
+      Plane Cell Count: 52
+      Color: 75; 85; 102
+      Alpha: 0.45
+      Offset:
+        X: 0
+        Y: 0
+        Z: -46
+    - Class: rviz_default_plugins/MarkerArray
+      Name: City
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /formation/city
+        Depth: 1
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+        History Policy: Keep Last
+    - Class: rviz_default_plugins/MarkerArray
+      Name: Seven UAVs
+      Enabled: true
+      Value: true
+      Topic:
+        Value: /formation/markers
+        Depth: 5
+        Reliability Policy: Reliable
+        Durability Policy: Transient Local
+        History Policy: Keep Last
+  Enabled: true
+  Global Options:
+    Background Color: 53; 71; 85
+    Fixed Frame: map
+    Frame Rate: 30
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Name: Follow formation
+      Target Frame: formation_view
+      Distance: 1380
+      Pitch: 0.99
+      Yaw: 4.712389
+      Focal Point:
+        X: 0
+        Y: 30
+        Z: 0
+    Saved:
+      - Class: rviz_default_plugins/Orbit
+        Name: Follow formation
+        Target Frame: formation_view
+        Distance: 1380
+        Pitch: 0.99
+        Yaw: 4.712389
+        Focal Point:
+          X: 0
+          Y: 30
+          Z: 0
+      - Class: rviz_default_plugins/Orbit
+        Name: City flyby
+        Target Frame: formation_view
+        Distance: 1230
+        Pitch: 0.66
+        Yaw: 4.30
+        Focal Point:
+          X: 0
+          Y: 30
+          Z: 15
+      - Class: rviz_default_plugins/TopDownOrtho
+        Name: Full route
+        Target Frame: map
+        Angle: 0
+        Scale: 0.12
+        X: 2400
+        Y: 0
+Window Geometry:
+  Width: 1320
+  Height: 760

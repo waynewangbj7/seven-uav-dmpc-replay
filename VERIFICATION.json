@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-21",
+  "archive_checks": "PASS",
+  "verified": "Extracted per-seed dataset checks, event alignment, and closest-pair recomputation",
+  "rviz_gui": "Current playback confirmed by user before archiving; GUI not rerun from ZIP",
+  "seeds": {
+    "seed_7": [
+      "203 frames, 7 vehicles, 60.6 s",
+      "Min sampled separation 118.073 m at 11.1 s",
+      "5 events, 2657 link records"
+    ],
+    "seed_8": [
+      "203 frames, 7 vehicles, 60.6 s",
+      "Min sampled separation 118.073 m at 11.1 s",
+      "5 events, 2657 link records"
+    ],
+    "seed_9": [
+      "203 frames, 7 vehicles, 60.6 s",
+      "Min sampled separation 118.072 m at 11.1 s",
+      "5 events, 2657 link records"
+    ],
+    "seed_10": [
+      "203 frames, 7 vehicles, 60.6 s",
+      "Min sampled separation 118.073 m at 11.1 s",
+      "5 events, 2657 link records"
+    ],
+    "seed_11": [
+      "203 frames, 7 vehicles, 60.6 s",
+      "Min sampled separation 118.072 m at 11.1 s",
+      "5 events, 2657 link records"
+    ]
+  }
+}

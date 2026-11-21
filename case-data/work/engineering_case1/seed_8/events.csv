@@ -1,0 +1,6 @@
+﻿time,event,agents,status,detail
+1.5,S2,"[""UAV-4"", ""UAV-5""]",handled,engineering atomic role/slot transaction
+4.2,S5,"[""UAV-2"", ""UAV-6""]",handled,engineering atomic role/slot transaction
+4.5,S6,"[""UAV-3"", ""UAV-6""]",handled,reciprocal slots; component lattice non-overlap checked
+6.6,S6,"[""UAV-3"", ""UAV-4""]",handled,reciprocal slots; component lattice non-overlap checked
+7.5,S6,"[""UAV-4"", ""UAV-6""]",handled,reciprocal slots; component lattice non-overlap checked

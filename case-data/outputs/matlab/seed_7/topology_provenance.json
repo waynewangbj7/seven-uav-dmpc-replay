@@ -1,0 +1,12 @@
+{
+  "source": "event-layer replay from saved positions; no DMPC or dynamics rerun",
+  "seed": 7,
+  "frames": 203,
+  "roles_slots_events_metrics_final_links": "PASS",
+  "source_sha256": {
+    "states.csv": "06cb7e1bf0cc0a979185751b0731f447963ff810cc58aea62b67284dc92cdfc8",
+    "events.csv": "2f9942ff558d9e1935769fa1707fff2efa9862fcb46f864fa7395e97c4f0c680",
+    "metrics.csv": "8ccd22f354b48df7929a465fb24afb78208a186d7dd863bbe7119d377b9d4cef",
+    "summary.json": "51b8566e0b0749e763eca0a22d8d9ae96e60adce104e600f0ae4e59f9ca443ba"
+  }
+}
