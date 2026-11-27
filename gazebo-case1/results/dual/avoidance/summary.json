@@ -1,0 +1,59 @@
+{
+  "outcome": "arrived",
+  "elapsed_s": 107.5,
+  "start_sim_time_s": 223.32,
+  "min_body_clearance_m": 0.37506419849649,
+  "min_inter_uav_m": 1.0456728272251272,
+  "peak_formation_error_m": 1.4250902908884864,
+  "final_formation_error_m": 1.5198169788204144e-05,
+  "final_goal_error_m": 0.0010411625318792388,
+  "final_height_error_m": 5.974295170485533e-05,
+  "offsets": [
+    [
+      0.0,
+      0.0
+    ],
+    [
+      -1.0,
+      -1.7320508075688772
+    ],
+    [
+      -2.0,
+      0.0
+    ],
+    [
+      -4.0,
+      0.0
+    ],
+    [
+      -6.0,
+      0.0
+    ],
+    [
+      -3.0,
+      -1.7320508075688772
+    ],
+    [
+      -4.0,
+      -3.4641016151377544
+    ]
+  ],
+  "origin": [
+    54.63133422723126,
+    0.003586522177688954
+  ],
+  "detours": {
+    "orange_container": [
+      "UAV-2",
+      "UAV-6"
+    ],
+    "outer_container": [
+      "UAV-7"
+    ]
+  },
+  "detouring_aircraft": [
+    "UAV-2",
+    "UAV-6",
+    "UAV-7"
+  ]
+}

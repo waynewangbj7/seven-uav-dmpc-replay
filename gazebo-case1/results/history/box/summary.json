@@ -1,0 +1,28 @@
+{
+  "outcome": "arrived",
+  "elapsed_s": 57.7,
+  "min_body_clearance_m": 0.35038446582223215,
+  "min_inter_uav_m": 1.9999083152494874,
+  "peak_formation_error_m": 9.183074768816356e-05,
+  "final_formation_error_m": 4.743863005485373e-06,
+  "final_goal_error_m": 0.00019360298165548834,
+  "final_height_error_m": 1.2268440877871711e-05,
+  "route": [
+    [
+      1.6300000000000003,
+      0.0
+    ],
+    [
+      1.6300000000000003,
+      -1.42
+    ],
+    [
+      10.57,
+      -1.42
+    ],
+    [
+      10.57,
+      0.0
+    ]
+  ]
+}

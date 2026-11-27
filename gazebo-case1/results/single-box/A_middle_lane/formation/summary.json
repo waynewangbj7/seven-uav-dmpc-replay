@@ -1,0 +1,163 @@
+{
+  "gazebo_s": 181.8,
+  "case_s": 60.599999999999994,
+  "min_sampled_spacing_m": 1.4962926413736382,
+  "final_slot_error_m": 0.02098180119317229,
+  "connected_count": 7,
+  "leader_goal_distance_m": 0.46178259857811105,
+  "peak_solver_ms": 186.3643670003512,
+  "feasible_fallbacks": 2,
+  "final_speed_error_m_s": 0.009761415528792505,
+  "final_yaw_deg": 1.9467800086955056,
+  "links": [
+    [
+      "UAV-2",
+      "UAV-3",
+      3
+    ],
+    [
+      "UAV-2",
+      "UAV-6",
+      4
+    ],
+    [
+      "UAV-3",
+      "UAV-1",
+      1
+    ],
+    [
+      "UAV-3",
+      "UAV-2",
+      6
+    ],
+    [
+      "UAV-3",
+      "UAV-4",
+      4
+    ],
+    [
+      "UAV-3",
+      "UAV-6",
+      5
+    ],
+    [
+      "UAV-4",
+      "UAV-3",
+      1
+    ],
+    [
+      "UAV-4",
+      "UAV-5",
+      4
+    ],
+    [
+      "UAV-4",
+      "UAV-6",
+      6
+    ],
+    [
+      "UAV-6",
+      "UAV-2",
+      1
+    ],
+    [
+      "UAV-6",
+      "UAV-3",
+      2
+    ],
+    [
+      "UAV-6",
+      "UAV-4",
+      3
+    ],
+    [
+      "UAV-6",
+      "UAV-7",
+      5
+    ],
+    [
+      "UAV-7",
+      "UAV-6",
+      2
+    ]
+  ],
+  "start_sim_time_s": 36.22,
+  "end_sim_time_s": 218.02,
+  "outcome": "target_reached",
+  "initial_xy_error_m": 0.005404644025942122,
+  "events": [
+    [
+      "S2",
+      [
+        "UAV-4",
+        "UAV-5"
+      ]
+    ],
+    [
+      "S5",
+      [
+        "UAV-2",
+        "UAV-6"
+      ]
+    ],
+    [
+      "S6",
+      [
+        "UAV-3",
+        "UAV-6"
+      ]
+    ],
+    [
+      "S6",
+      [
+        "UAV-3",
+        "UAV-4"
+      ]
+    ],
+    [
+      "S6",
+      [
+        "UAV-4",
+        "UAV-6"
+      ]
+    ]
+  ],
+  "expected_events": [
+    [
+      "S2",
+      [
+        "UAV-4",
+        "UAV-5"
+      ]
+    ],
+    [
+      "S5",
+      [
+        "UAV-2",
+        "UAV-6"
+      ]
+    ],
+    [
+      "S6",
+      [
+        "UAV-3",
+        "UAV-6"
+      ]
+    ],
+    [
+      "S6",
+      [
+        "UAV-3",
+        "UAV-4"
+      ]
+    ],
+    [
+      "S6",
+      [
+        "UAV-4",
+        "UAV-6"
+      ]
+    ]
+  ],
+  "exact_event_sequence": true
+}

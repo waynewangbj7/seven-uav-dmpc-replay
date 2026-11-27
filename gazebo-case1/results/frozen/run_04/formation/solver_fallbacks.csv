@@ -1,0 +1,7 @@
+gz_elapsed_s,case_time_s,id,role,status,attempts,solver_wall_ms
+19.799999999999997,6.6,UAV-4,coordinator,Maximum_Iterations_Exceeded,"[{""status"": ""Maximum_Iterations_Exceeded"", ""success"": false}, {""status"": ""Maximum_Iterations_Exceeded"", ""success"": false}]",132.80779700107814
+20.699999999999996,6.8999999999999995,UAV-4,coordinator,Maximum_Iterations_Exceeded,"[{""status"": ""Maximum_Iterations_Exceeded"", ""success"": false}, {""status"": ""Maximum_Iterations_Exceeded"", ""success"": false}]",153.24947599947336
+20.699999999999996,6.8999999999999995,UAV-5,follower,Maximum_Iterations_Exceeded,"[{""status"": ""Maximum_Iterations_Exceeded"", ""success"": false}, {""status"": ""Maximum_Iterations_Exceeded"", ""success"": false}]",130.49234100071772
+21.659999999999997,7.199999999999999,UAV-4,coordinator,Maximum_Iterations_Exceeded,"[{""status"": ""Maximum_Iterations_Exceeded"", ""success"": false}, {""status"": ""Maximum_Iterations_Exceeded"", ""success"": false}]",147.0335129997693
+21.659999999999997,7.199999999999999,UAV-5,follower,Maximum_Iterations_Exceeded,"[{""status"": ""Maximum_Iterations_Exceeded"", ""success"": false}, {""status"": ""Maximum_Iterations_Exceeded"", ""success"": false}]",129.63021399991703
+22.58,7.5,UAV-5,follower,Maximum_Iterations_Exceeded,"[{""status"": ""Maximum_Iterations_Exceeded"", ""success"": false}, {""status"": ""Maximum_Iterations_Exceeded"", ""success"": false}]",132.59804299923417

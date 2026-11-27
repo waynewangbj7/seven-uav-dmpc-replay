@@ -1,0 +1,25 @@
+{
+  "initial_connected": 3,
+  "first_all_connected_gazebo_s": 21.6,
+  "stages_observed_gap_s": 0.20000000000001705,
+  "max_aircraft_motion_between_samples_m": 0.0616750710741035,
+  "detour_starts_after_handoff_s": {
+    "UAV-1": 6.400000000000006,
+    "UAV-3": 16.900000000000006,
+    "UAV-4": 27.400000000000006,
+    "UAV-5": 37.900000000000006
+  },
+  "max_lateral_shift_m": {
+    "UAV-1": 1.4269407633479938,
+    "UAV-2": 0.0017777794863438334,
+    "UAV-3": 1.4270628111310297,
+    "UAV-4": 1.426872274597407,
+    "UAV-5": 1.4270669445758615,
+    "UAV-6": 0.0023242908211638103,
+    "UAV-7": 0.012291930352023694
+  },
+  "min_net_obstacle_clearance_m": 0.375047205396978,
+  "min_vehicle_spacing_m": 1.9833792578831182,
+  "final_formation_error_m": 2.611779947905784e-05,
+  "from_case1_entry_to_finish_s": 255.49999999999997
+}

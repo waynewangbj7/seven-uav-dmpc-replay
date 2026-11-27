@@ -1,0 +1,22 @@
+{
+  "result": "pass",
+  "stage": "fresh Linux path, complete Gazebo headless mission",
+  "five_exported_scenes_match_validated_geometry": true,
+  "generated_vehicle_matches_validated_physical_model_and_visuals": true,
+  "full_flight_sim_s": 333.72,
+  "case1_events_match": true,
+  "detouring_aircraft_by_box": {
+    "orange_container": [
+      "UAV-2",
+      "UAV-6"
+    ],
+    "outer_container": [
+      "UAV-7"
+    ]
+  },
+  "box_net_clearance_m": 0.3750751294946586,
+  "avoidance_min_sampled_spacing_m": 1.0457306623479565,
+  "landed_aircraft": 7,
+  "visual_verification": "Photographs and trajectories from the prior live GUI run are archived under media/ and results/dual.",
+  "fresh_path_gui_attempt": "WSLg failed to create a Qt OpenGL context. The full rerun was completed headless."
+}

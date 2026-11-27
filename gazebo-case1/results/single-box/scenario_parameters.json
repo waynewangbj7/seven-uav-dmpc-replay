@@ -1,0 +1,27 @@
+[
+  {
+    "variant": "A_middle_lane",
+    "box_center_y_m": -1.7320508075688772,
+    "expected_detouring_aircraft": [
+      "UAV-2",
+      "UAV-6"
+    ]
+  },
+  {
+    "variant": "B_outer_lane",
+    "box_center_y_m": -3.4641016151377544,
+    "expected_detouring_aircraft": [
+      "UAV-7"
+    ]
+  },
+  {
+    "variant": "C_reduced_clearance",
+    "box_center_y_m": 0.16,
+    "expected_detouring_aircraft": [
+      "UAV-1",
+      "UAV-3",
+      "UAV-4",
+      "UAV-5"
+    ]
+  }
+]

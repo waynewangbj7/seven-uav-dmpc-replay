@@ -1,0 +1,51 @@
+{
+  "result": "pass",
+  "stages": [
+    {
+      "obstacle": "orange_container",
+      "center": [
+        58.1,
+        -1.7320508075688772,
+        1.35
+      ],
+      "aircraft": [
+        "UAV-2",
+        "UAV-6"
+      ],
+      "detour_start_s": 10.5,
+      "recovered_s": 49.69999999999999,
+      "net_clearance_m": 0.37506419849649,
+      "obstacle_closest_aircraft": "UAV-2",
+      "min_spacing_m": 1.0456728272251272,
+      "closest_pair": [
+        "UAV-4",
+        "UAV-6"
+      ]
+    },
+    {
+      "obstacle": "outer_container",
+      "center": [
+        66.6,
+        -3.4641016151377544,
+        1.35
+      ],
+      "aircraft": [
+        "UAV-7"
+      ],
+      "detour_start_s": 71.10000000000002,
+      "recovered_s": 99.69999999999999,
+      "net_clearance_m": 0.37508744563926544,
+      "obstacle_closest_aircraft": "UAV-7",
+      "min_spacing_m": 1.0463741075644437,
+      "closest_pair": [
+        "UAV-6",
+        "UAV-7"
+      ]
+    }
+  ],
+  "stable_interval_between_detours_s": 21.400000000000034,
+  "landing_aircraft": 7,
+  "avoidance_sim_s": 107.5,
+  "mission_sim_s": 334.2,
+  "caption": "Detour and recovery are defined by a 0.10 m lateral deviation from each nominal lane."
+}

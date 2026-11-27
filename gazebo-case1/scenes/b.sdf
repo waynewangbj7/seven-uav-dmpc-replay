@@ -1,0 +1,5586 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- Adapted from the Gazebo Sim 8 multicopter velocity-control example. This project changed the fleet, scenario and task settings. See ../NOTICE.md. -->
+<sdf version="1.9">
+  <world name="case1_mavic_cycle">
+    <physics name="4ms" type="ignored">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics">
+    </plugin>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands">
+    </plugin>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>240 150</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.21 0.31 0.18 1</ambient>
+            <diffuse>0.21 0.31 0.18 1</diffuse>
+            <specular>0 0 0 1</specular>
+          </material>
+          <pose>30 0 0 0 0 0</pose>
+        </visual>
+      </link>
+    </model>
+    <include>
+      <uri>model://mavic_x3</uri>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3</robotNamespace>
+        <jointName>X3/rotor_0_joint</jointName>
+        <linkName>X3/rotor_0</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>0</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3</robotNamespace>
+        <jointName>X3/rotor_1_joint</jointName>
+        <linkName>X3/rotor_1</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>1</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3</robotNamespace>
+        <jointName>X3/rotor_2_joint</jointName>
+        <linkName>X3/rotor_2</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>2</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3</robotNamespace>
+        <jointName>X3/rotor_3_joint</jointName>
+        <linkName>X3/rotor_3</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>3</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-control-system" name="gz::sim::systems::MulticopterVelocityControl">
+        <robotNamespace>X3</robotNamespace>
+        <commandSubTopic>gazebo/command/twist</commandSubTopic>
+        <enableSubTopic>enable</enableSubTopic>
+        <comLinkName>X3/base_link</comLinkName>
+        <velocityGain>2.7 2.7 2.7</velocityGain>
+        <attitudeGain>2 3 0.15</attitudeGain>
+        <angularRateGain>0.4 0.52 0.18</angularRateGain>
+        <maximumLinearAcceleration>2 2 2</maximumLinearAcceleration>
+        <rotorConfiguration>
+          <rotor>
+            <jointName>X3/rotor_0_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_1_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_2_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_3_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+        </rotorConfiguration>
+      </plugin>
+      <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+        <dimensions>3</dimensions>
+        <odom_frame>world</odom_frame>
+      </plugin>
+      <pose>-0.49733936 8.6 0.053302 0 0 0</pose>
+    </include>
+    <include>
+      <uri>model://mavic_x3</uri>
+      <name>x3_follower</name>
+      <pose>-1.633549 6.8381948 0.053302 0 0 -0.15</pose>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3B</robotNamespace>
+        <jointName>X3/rotor_0_joint</jointName>
+        <linkName>X3/rotor_0</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>0</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3B</robotNamespace>
+        <jointName>X3/rotor_1_joint</jointName>
+        <linkName>X3/rotor_1</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>1</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3B</robotNamespace>
+        <jointName>X3/rotor_2_joint</jointName>
+        <linkName>X3/rotor_2</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>2</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3B</robotNamespace>
+        <jointName>X3/rotor_3_joint</jointName>
+        <linkName>X3/rotor_3</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>3</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-control-system" name="gz::sim::systems::MulticopterVelocityControl">
+        <robotNamespace>X3B</robotNamespace>
+        <commandSubTopic>gazebo/command/twist</commandSubTopic>
+        <enableSubTopic>enable</enableSubTopic>
+        <comLinkName>X3/base_link</comLinkName>
+        <velocityGain>2.7 2.7 2.7</velocityGain>
+        <attitudeGain>2 3 0.15</attitudeGain>
+        <angularRateGain>0.4 0.52 0.18</angularRateGain>
+        <maximumLinearAcceleration>2 2 2</maximumLinearAcceleration>
+        <rotorConfiguration>
+          <rotor>
+            <jointName>X3/rotor_0_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_1_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_2_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_3_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+        </rotorConfiguration>
+      </plugin>
+      <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+        <dimensions>3</dimensions>
+        <odom_frame>world</odom_frame>
+      </plugin>
+    </include>
+    <include>
+      <uri>model://mavic_x3</uri>
+      <name>x3_right</name>
+      <pose>-2.7998263 8.7271948 0.053302 0 0 0.04</pose>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3C</robotNamespace>
+        <jointName>X3/rotor_0_joint</jointName>
+        <linkName>X3/rotor_0</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>0</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3C</robotNamespace>
+        <jointName>X3/rotor_1_joint</jointName>
+        <linkName>X3/rotor_1</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>1</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3C</robotNamespace>
+        <jointName>X3/rotor_2_joint</jointName>
+        <linkName>X3/rotor_2</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>2</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3C</robotNamespace>
+        <jointName>X3/rotor_3_joint</jointName>
+        <linkName>X3/rotor_3</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>3</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-control-system" name="gz::sim::systems::MulticopterVelocityControl">
+        <robotNamespace>X3C</robotNamespace>
+        <commandSubTopic>gazebo/command/twist</commandSubTopic>
+        <enableSubTopic>enable</enableSubTopic>
+        <comLinkName>X3/base_link</comLinkName>
+        <velocityGain>2.7 2.7 2.7</velocityGain>
+        <attitudeGain>2 3 0.15</attitudeGain>
+        <angularRateGain>0.4 0.52 0.18</angularRateGain>
+        <maximumLinearAcceleration>2 2 2</maximumLinearAcceleration>
+        <rotorConfiguration>
+          <rotor>
+            <jointName>X3/rotor_0_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_1_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_2_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_3_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+        </rotorConfiguration>
+      </plugin>
+      <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+        <dimensions>3</dimensions>
+        <odom_frame>world</odom_frame>
+      </plugin>
+    </include>
+    <include>
+      <uri>model://mavic_x3</uri>
+      <name>x3_outer_left</name>
+      <pose>-5.5089148 11.113298 0.053302 0 0 -0.2</pose>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3D</robotNamespace>
+        <jointName>X3/rotor_0_joint</jointName>
+        <linkName>X3/rotor_0</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>0</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3D</robotNamespace>
+        <jointName>X3/rotor_1_joint</jointName>
+        <linkName>X3/rotor_1</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>1</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3D</robotNamespace>
+        <jointName>X3/rotor_2_joint</jointName>
+        <linkName>X3/rotor_2</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>2</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3D</robotNamespace>
+        <jointName>X3/rotor_3_joint</jointName>
+        <linkName>X3/rotor_3</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>3</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-control-system" name="gz::sim::systems::MulticopterVelocityControl">
+        <robotNamespace>X3D</robotNamespace>
+        <commandSubTopic>gazebo/command/twist</commandSubTopic>
+        <enableSubTopic>enable</enableSubTopic>
+        <comLinkName>X3/base_link</comLinkName>
+        <velocityGain>2.7 2.7 2.7</velocityGain>
+        <attitudeGain>2 3 0.15</attitudeGain>
+        <angularRateGain>0.4 0.52 0.18</angularRateGain>
+        <maximumLinearAcceleration>2 2 2</maximumLinearAcceleration>
+        <rotorConfiguration>
+          <rotor>
+            <jointName>X3/rotor_0_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_1_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_2_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_3_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+        </rotorConfiguration>
+      </plugin>
+      <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+        <dimensions>3</dimensions>
+        <odom_frame>world</odom_frame>
+      </plugin>
+    </include>
+    <include>
+      <uri>model://mavic_x3</uri>
+      <name>x3_outer_right</name>
+      <pose>-8.1299317 10.1063 0.053302 0 0 -0.01</pose>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3E</robotNamespace>
+        <jointName>X3/rotor_0_joint</jointName>
+        <linkName>X3/rotor_0</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>0</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3E</robotNamespace>
+        <jointName>X3/rotor_1_joint</jointName>
+        <linkName>X3/rotor_1</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>1</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3E</robotNamespace>
+        <jointName>X3/rotor_2_joint</jointName>
+        <linkName>X3/rotor_2</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>2</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3E</robotNamespace>
+        <jointName>X3/rotor_3_joint</jointName>
+        <linkName>X3/rotor_3</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>3</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-control-system" name="gz::sim::systems::MulticopterVelocityControl">
+        <robotNamespace>X3E</robotNamespace>
+        <commandSubTopic>gazebo/command/twist</commandSubTopic>
+        <enableSubTopic>enable</enableSubTopic>
+        <comLinkName>X3/base_link</comLinkName>
+        <velocityGain>2.7 2.7 2.7</velocityGain>
+        <attitudeGain>2 3 0.15</attitudeGain>
+        <angularRateGain>0.4 0.52 0.18</angularRateGain>
+        <maximumLinearAcceleration>2 2 2</maximumLinearAcceleration>
+        <rotorConfiguration>
+          <rotor>
+            <jointName>X3/rotor_0_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_1_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_2_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_3_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+        </rotorConfiguration>
+      </plugin>
+      <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+        <dimensions>3</dimensions>
+        <odom_frame>world</odom_frame>
+      </plugin>
+    </include>
+    <include>
+      <uri>model://mavic_x3</uri>
+      <name>x3_edge_left</name>
+      <pose>-4.355673 5.6490953 0.053302 0 0 -0.15</pose>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3F</robotNamespace>
+        <jointName>X3/rotor_0_joint</jointName>
+        <linkName>X3/rotor_0</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>0</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3F</robotNamespace>
+        <jointName>X3/rotor_1_joint</jointName>
+        <linkName>X3/rotor_1</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>1</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3F</robotNamespace>
+        <jointName>X3/rotor_2_joint</jointName>
+        <linkName>X3/rotor_2</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>2</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3F</robotNamespace>
+        <jointName>X3/rotor_3_joint</jointName>
+        <linkName>X3/rotor_3</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>3</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-control-system" name="gz::sim::systems::MulticopterVelocityControl">
+        <robotNamespace>X3F</robotNamespace>
+        <commandSubTopic>gazebo/command/twist</commandSubTopic>
+        <enableSubTopic>enable</enableSubTopic>
+        <comLinkName>X3/base_link</comLinkName>
+        <velocityGain>2.7 2.7 2.7</velocityGain>
+        <attitudeGain>2 3 0.15</attitudeGain>
+        <angularRateGain>0.4 0.52 0.18</angularRateGain>
+        <maximumLinearAcceleration>2 2 2</maximumLinearAcceleration>
+        <rotorConfiguration>
+          <rotor>
+            <jointName>X3/rotor_0_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_1_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_2_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_3_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+        </rotorConfiguration>
+      </plugin>
+      <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+        <dimensions>3</dimensions>
+        <odom_frame>world</odom_frame>
+      </plugin>
+    </include>
+    <include>
+      <uri>model://mavic_x3</uri>
+      <name>x3_edge_right</name>
+      <pose>-5.9563999 3.9669411 0.053302 0 0 0.2</pose>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3G</robotNamespace>
+        <jointName>X3/rotor_0_joint</jointName>
+        <linkName>X3/rotor_0</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>0</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3G</robotNamespace>
+        <jointName>X3/rotor_1_joint</jointName>
+        <linkName>X3/rotor_1</linkName>
+        <turningDirection>ccw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>1</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3G</robotNamespace>
+        <jointName>X3/rotor_2_joint</jointName>
+        <linkName>X3/rotor_2</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>2</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+        <robotNamespace>X3G</robotNamespace>
+        <jointName>X3/rotor_3_joint</jointName>
+        <linkName>X3/rotor_3</linkName>
+        <turningDirection>cw</turningDirection>
+        <timeConstantUp>0.0125</timeConstantUp>
+        <timeConstantDown>0.025</timeConstantDown>
+        <maxRotVelocity>800.0</maxRotVelocity>
+        <motorConstant>8.54858e-06</motorConstant>
+        <momentConstant>0.016</momentConstant>
+        <commandSubTopic>gazebo/command/motor_speed</commandSubTopic>
+        <actuator_number>3</actuator_number>
+        <rotorDragCoefficient>8.06428e-05</rotorDragCoefficient>
+        <rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
+        <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+        <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+        <motorType>velocity</motorType>
+      </plugin>
+      <plugin filename="gz-sim-multicopter-control-system" name="gz::sim::systems::MulticopterVelocityControl">
+        <robotNamespace>X3G</robotNamespace>
+        <commandSubTopic>gazebo/command/twist</commandSubTopic>
+        <enableSubTopic>enable</enableSubTopic>
+        <comLinkName>X3/base_link</comLinkName>
+        <velocityGain>2.7 2.7 2.7</velocityGain>
+        <attitudeGain>2 3 0.15</attitudeGain>
+        <angularRateGain>0.4 0.52 0.18</angularRateGain>
+        <maximumLinearAcceleration>2 2 2</maximumLinearAcceleration>
+        <rotorConfiguration>
+          <rotor>
+            <jointName>X3/rotor_0_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_1_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_2_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+          <rotor>
+            <jointName>X3/rotor_3_joint</jointName>
+            <forceConstant>8.54858e-06</forceConstant>
+            <momentConstant>0.016</momentConstant>
+            <direction>-1</direction>
+          </rotor>
+        </rotorConfiguration>
+      </plugin>
+      <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+        <dimensions>3</dimensions>
+        <odom_frame>world</odom_frame>
+      </plugin>
+    </include>
+    <model name="orange_container">
+      <static>true</static>
+      <pose>58.1 -3.4641016151378 1.35 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.4 1.3 2.7</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.94 0.48 0.12 1</ambient>
+            <diffuse>0.94 0.48 0.12 1</diffuse>
+          </material>
+        </visual>
+        <collision name="solid">
+          <geometry>
+            <box>
+              <size>1.4 1.3 2.7</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+    <model name="courtyard_base">
+      <static>true</static>
+      <pose>58.0 -1.5 0.002 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>32 22 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.21 0.31 0.18 1</ambient>
+            <diffuse>0.21 0.31 0.18 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="asphalt_road">
+      <static>true</static>
+      <pose>58.0 -2 0.006 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>28 9 0.006</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2 0.24 0.27 1</ambient>
+            <diffuse>0.2 0.24 0.27 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="road_border_-6.4">
+      <static>true</static>
+      <pose>58.0 -6.4 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>28 0.05 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 0.79 0.24 1</ambient>
+            <diffuse>1 0.79 0.24 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="road_border_2.4">
+      <static>true</static>
+      <pose>58.0 2.4 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>28 0.05 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 0.79 0.24 1</ambient>
+            <diffuse>1 0.79 0.24 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_-9">
+      <static>true</static>
+      <pose>46.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_-8">
+      <static>true</static>
+      <pose>47.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_-7">
+      <static>true</static>
+      <pose>48.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_-6">
+      <static>true</static>
+      <pose>49.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_-5">
+      <static>true</static>
+      <pose>50.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_-4">
+      <static>true</static>
+      <pose>51.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_-3">
+      <static>true</static>
+      <pose>52.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_-2">
+      <static>true</static>
+      <pose>53.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_-1">
+      <static>true</static>
+      <pose>54.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_0">
+      <static>true</static>
+      <pose>55.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_1">
+      <static>true</static>
+      <pose>56.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_2">
+      <static>true</static>
+      <pose>57.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_3">
+      <static>true</static>
+      <pose>58.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_4">
+      <static>true</static>
+      <pose>59.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_5">
+      <static>true</static>
+      <pose>60.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_6">
+      <static>true</static>
+      <pose>61.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_7">
+      <static>true</static>
+      <pose>62.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_8">
+      <static>true</static>
+      <pose>63.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_9">
+      <static>true</static>
+      <pose>64.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_10">
+      <static>true</static>
+      <pose>65.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_11">
+      <static>true</static>
+      <pose>66.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_12">
+      <static>true</static>
+      <pose>67.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_13">
+      <static>true</static>
+      <pose>68.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_14">
+      <static>true</static>
+      <pose>69.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="marking_15">
+      <static>true</static>
+      <pose>70.0 -5.78 0.011 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.5 0.05 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.92 0.92 0.9 1</ambient>
+            <diffuse>0.92 0.92 0.9 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="north_workshop">
+      <static>true</static>
+      <pose>61.5 5.5 1.8 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>8 3.8 3.6</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.31 0.43 0.52 1</ambient>
+            <diffuse>0.31 0.43 0.52 1</diffuse>
+          </material>
+        </visual>
+        <collision name="solid">
+          <geometry>
+            <box>
+              <size>8 3.8 3.6</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+    <model name="north_workshop_roof">
+      <static>true</static>
+      <pose>61.5 5.5 3.72 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>8.18 3.98 0.24</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.21 0.24 1</ambient>
+            <diffuse>0.15 0.21 0.24 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="north_workshop_window_0">
+      <static>true</static>
+      <pose>59.1 3.58 1.8 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.36 0.04 0.62</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.35 0.48 1</ambient>
+            <diffuse>0.15 0.35 0.48 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="north_workshop_window_1">
+      <static>true</static>
+      <pose>61.5 3.58 1.8 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.36 0.04 0.62</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.35 0.48 1</ambient>
+            <diffuse>0.15 0.35 0.48 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="north_workshop_window_2">
+      <static>true</static>
+      <pose>63.9 3.58 1.8 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.36 0.04 0.62</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.35 0.48 1</ambient>
+            <diffuse>0.15 0.35 0.48 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="south_storage">
+      <static>true</static>
+      <pose>62.0 -8.9 1.25 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>7.2 2.3 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.58 0.57 1</ambient>
+            <diffuse>0.5 0.58 0.57 1</diffuse>
+          </material>
+        </visual>
+        <collision name="solid">
+          <geometry>
+            <box>
+              <size>7.2 2.3 2.5</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+    <model name="south_storage_roof">
+      <static>true</static>
+      <pose>62.0 -8.9 2.62 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>7.38 2.48 0.24</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.21 0.24 1</ambient>
+            <diffuse>0.15 0.21 0.24 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="south_storage_window_0">
+      <static>true</static>
+      <pose>59.84 -10.07 1.8 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.224 0.04 0.62</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.35 0.48 1</ambient>
+            <diffuse>0.15 0.35 0.48 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="south_storage_window_1">
+      <static>true</static>
+      <pose>62.0 -10.07 1.8 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.224 0.04 0.62</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.35 0.48 1</ambient>
+            <diffuse>0.15 0.35 0.48 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="south_storage_window_2">
+      <static>true</static>
+      <pose>64.16 -10.07 1.8 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.224 0.04 0.62</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.35 0.48 1</ambient>
+            <diffuse>0.15 0.35 0.48 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="entry_office">
+      <static>true</static>
+      <pose>47.5 4.9 1.3 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>3.4 3.3 2.6</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.62 0.64 0.54 1</ambient>
+            <diffuse>0.62 0.64 0.54 1</diffuse>
+          </material>
+        </visual>
+        <collision name="solid">
+          <geometry>
+            <box>
+              <size>3.4 3.3 2.6</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+    <model name="entry_office_roof">
+      <static>true</static>
+      <pose>47.5 4.9 2.72 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>3.58 3.48 0.24</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.21 0.24 1</ambient>
+            <diffuse>0.15 0.21 0.24 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="entry_office_window_0">
+      <static>true</static>
+      <pose>46.480000000000004 3.23 1.8 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.578 0.04 0.62</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.35 0.48 1</ambient>
+            <diffuse>0.15 0.35 0.48 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="entry_office_window_1">
+      <static>true</static>
+      <pose>47.5 3.23 1.8 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.578 0.04 0.62</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.35 0.48 1</ambient>
+            <diffuse>0.15 0.35 0.48 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="entry_office_window_2">
+      <static>true</static>
+      <pose>48.519999999999996 3.23 1.8 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.578 0.04 0.62</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.15 0.35 0.48 1</ambient>
+            <diffuse>0.15 0.35 0.48 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="container_rib_0">
+      <static>true</static>
+      <pose>57.55 -4.1251016151378 1.35 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.045 0.024 2.57</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.28 0.09 1</ambient>
+            <diffuse>0.7 0.28 0.09 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="container_rib_1">
+      <static>true</static>
+      <pose>57.91 -4.1251016151378 1.35 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.045 0.024 2.57</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.28 0.09 1</ambient>
+            <diffuse>0.7 0.28 0.09 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="container_rib_2">
+      <static>true</static>
+      <pose>58.27 -4.1251016151378 1.35 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.045 0.024 2.57</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.28 0.09 1</ambient>
+            <diffuse>0.7 0.28 0.09 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="container_rib_3">
+      <static>true</static>
+      <pose>58.63 -4.1251016151378 1.35 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.045 0.024 2.57</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.28 0.09 1</ambient>
+            <diffuse>0.7 0.28 0.09 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <scene>
+      <background>.77 .83 .85 1</background>
+      <ambient>.48 .49 .44 1</ambient>
+      <grid>false</grid>
+    </scene>
+    <model name="open_launch_apron">
+      <static>true</static>
+      <pose>-3.9 8.65 0.008 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>13.4 10.7 0.016</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.38 0.397 0.386 1</ambient>
+            <diffuse>0.38 0.397 0.386 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="apron_edge_-9.5_-5.98">
+      <static>true</static>
+      <pose>-9.5 3.62 0.019 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.03 0.07 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.81 0.74 1</ambient>
+            <diffuse>0.8 0.81 0.74 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="apron_edge_-7.0_-5.98">
+      <static>true</static>
+      <pose>-7 3.62 0.019 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.03 0.07 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.81 0.74 1</ambient>
+            <diffuse>0.8 0.81 0.74 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="apron_edge_-4.5_-5.98">
+      <static>true</static>
+      <pose>-4.5 3.62 0.019 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.03 0.07 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.81 0.74 1</ambient>
+            <diffuse>0.8 0.81 0.74 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="apron_edge_-2.0_-5.98">
+      <static>true</static>
+      <pose>-2 3.62 0.019 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.03 0.07 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.81 0.74 1</ambient>
+            <diffuse>0.8 0.81 0.74 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="apron_edge_0.5_-5.98">
+      <static>true</static>
+      <pose>0.5 3.62 0.019 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.03 0.07 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.81 0.74 1</ambient>
+            <diffuse>0.8 0.81 0.74 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="apron_edge_2.0_-5.98">
+      <static>true</static>
+      <pose>2 3.62 0.019 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.03 0.07 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.81 0.74 1</ambient>
+            <diffuse>0.8 0.81 0.74 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="apron_edge_-9.5_4.08">
+      <static>true</static>
+      <pose>-9.5 13.68 0.019 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.03 0.07 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.81 0.74 1</ambient>
+            <diffuse>0.8 0.81 0.74 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="apron_edge_-7.0_4.08">
+      <static>true</static>
+      <pose>-7 13.68 0.019 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.03 0.07 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.81 0.74 1</ambient>
+            <diffuse>0.8 0.81 0.74 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="apron_edge_-4.5_4.08">
+      <static>true</static>
+      <pose>-4.5 13.68 0.019 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.03 0.07 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.81 0.74 1</ambient>
+            <diffuse>0.8 0.81 0.74 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="apron_edge_-2.0_4.08">
+      <static>true</static>
+      <pose>-2 13.68 0.019 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.03 0.07 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.81 0.74 1</ambient>
+            <diffuse>0.8 0.81 0.74 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="apron_edge_0.5_4.08">
+      <static>true</static>
+      <pose>0.5 13.68 0.019 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.03 0.07 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.81 0.74 1</ambient>
+            <diffuse>0.8 0.81 0.74 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="apron_edge_2.0_4.08">
+      <static>true</static>
+      <pose>2 13.68 0.019 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.03 0.07 0.004</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.81 0.74 1</ambient>
+            <diffuse>0.8 0.81 0.74 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="rolling_meadow_north">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="grass">
+          <pose>0 0 0 0 0 0</pose>
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <mesh>
+              <uri>../assets/rolling_meadow_north.obj</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.235 0.322 0.192 1</ambient>
+            <diffuse>0.235 0.322 0.192 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="rolling_meadow_south">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="grass">
+          <pose>0 0 0 0 0 0</pose>
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <mesh>
+              <uri>../assets/rolling_meadow_south.obj</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.235 0.322 0.192 1</ambient>
+            <diffuse>0.235 0.322 0.192 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_0">
+      <static>true</static>
+      <pose>-13 8.8 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.5856 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.096</radius>
+              <length>1.1712</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.4016 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.7296 0.6624 0.7392</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.432 0.096 1.248 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5088 0.48 0.5184</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3744 -0.048 1.4976 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5376 0.48 0.624</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0288 0.2496 1.7376 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4512 0.4416 0.528</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_1">
+      <static>true</static>
+      <pose>-10.7 14.9 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.4636 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.07600000000000001</radius>
+              <length>0.9272</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.1096 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5776 0.5244 0.5852</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.342 0.076 0.988 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4028 0.38 0.4104</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.2964 -0.038 1.1856 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4256 0.38 0.494</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0228 0.1976 1.3756 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3572 0.3496 0.418</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_2">
+      <static>true</static>
+      <pose>-6.1 17.1 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.7137 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.11699999999999999</radius>
+              <length>1.4273999999999998</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.7082 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.8892 0.8073 0.9009</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.5265 0.117 1.521 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.6201 0.585 0.6318</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.4563 -0.0585 1.8252 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.6552 0.585 0.7605</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0351 0.3042 2.1177 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5499 0.5382 0.6435</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_3">
+      <static>true</static>
+      <pose>-1.9 13.9 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.5124 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.084</radius>
+              <length>1.0248</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.2264 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.6384 0.5796 0.6468</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.378 0.084 1.092 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4452 0.42 0.4536</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3276 -0.042 1.3104 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4704 0.42 0.546</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0252 0.2184 1.5204 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3948 0.3864 0.462</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_4">
+      <static>true</static>
+      <pose>3 15.8 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.6832 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.11200000000000002</radius>
+              <length>1.3664</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.6352 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.8512 0.7728 0.8624</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.504 0.112 1.456 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5936 0.56 0.6048</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.4368 -0.056 1.7472 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.6272 0.56 0.728</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0336 0.2912 2.0272 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5264 0.5152 0.616</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_5">
+      <static>true</static>
+      <pose>5.3 8.2 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.4636 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.07600000000000001</radius>
+              <length>0.9272</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.1096 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5776 0.5244 0.5852</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.342 0.076 0.988 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4028 0.38 0.4104</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.2964 -0.038 1.1856 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4256 0.38 0.494</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0228 0.1976 1.3756 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3572 0.3496 0.418</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_6">
+      <static>true</static>
+      <pose>9 12.3 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.6039 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.099</radius>
+              <length>1.2078</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.4454 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.7524 0.6831 0.7623</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.4455 0.099 1.287 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5247 0.495 0.5346</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3861 -0.0495 1.5444 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5544 0.495 0.6435</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0297 0.2574 1.7919 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4653 0.4554 0.5445</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_7">
+      <static>true</static>
+      <pose>13 9.6 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.5673 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.09300000000000001</radius>
+              <length>1.1346</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.3578 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.7068 0.6417 0.7161</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.4185 0.093 1.209 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4929 0.465 0.5022</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3627 -0.0465 1.4508 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5208 0.465 0.6045</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0279 0.2418 1.6833 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4371 0.4278 0.5115</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_8">
+      <static>true</static>
+      <pose>18 10.7 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.7503 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.123</radius>
+              <length>1.5006</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.7958 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.9348 0.8487 0.9471</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.5535 0.123 1.599 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.6519 0.615 0.6642</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.4797 -0.0615 1.9188 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.6888 0.615 0.7995</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0369 0.3198 2.2263 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5781 0.5658 0.6765</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_9">
+      <static>true</static>
+      <pose>21.1 8.1 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.5185 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.085</radius>
+              <length>1.037</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.241 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.646 0.5865 0.6545</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.3825 0.085 1.105 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4505 0.425 0.459</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3315 -0.0425 1.326 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.476 0.425 0.5525</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0255 0.221 1.5385 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3995 0.391 0.4675</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_10">
+      <static>true</static>
+      <pose>26 12.5 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.7076 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.11599999999999999</radius>
+              <length>1.4151999999999998</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.6936 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.8816 0.8004 0.8932</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.522 0.116 1.508 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.6148 0.58 0.6264</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.4524 -0.058 1.8096 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.6496 0.58 0.754</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0348 0.3016 2.0996 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5452 0.5336 0.638</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_11">
+      <static>true</static>
+      <pose>30.3 9 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.6222 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.10200000000000001</radius>
+              <length>1.2444</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.4892 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.7752 0.7038 0.7854</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.459 0.102 1.326 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5406 0.51 0.5508</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3978 -0.051 1.5912 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5712 0.51 0.663</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0306 0.2652 1.8462 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4794 0.4692 0.561</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_12">
+      <static>true</static>
+      <pose>34.8 8 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.4758 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.07800000000000001</radius>
+              <length>0.9516</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.1388 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5928 0.5382 0.6006</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.351 0.078 1.014 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4134 0.39 0.4212</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3042 -0.039 1.2168 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4368 0.39 0.507</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0234 0.2028 1.4118 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3666 0.3588 0.429</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_13">
+      <static>true</static>
+      <pose>40 8.6 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.6588 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.10800000000000001</radius>
+              <length>1.3176</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.5768 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.8208 0.7452 0.8316</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.486 0.108 1.404 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5724 0.54 0.5832</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.4212 -0.054 1.6848 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.6048 0.54 0.702</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0324 0.2808 1.9548 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5076 0.4968 0.594</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_14">
+      <static>true</static>
+      <pose>43.4 6.9 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.5246 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.08600000000000001</radius>
+              <length>1.0492</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.2556 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.6536 0.5934 0.6622</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.387 0.086 1.118 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4558 0.43 0.4644</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3354 -0.043 1.3416 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4816 0.43 0.559</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0258 0.2236 1.5566 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4042 0.3956 0.473</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_15">
+      <static>true</static>
+      <pose>-8 -11.8 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.4636 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.07600000000000001</radius>
+              <length>0.9272</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.1096 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5776 0.5244 0.5852</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.342 0.076 0.988 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4028 0.38 0.4104</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.2964 -0.038 1.1856 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4256 0.38 0.494</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0228 0.1976 1.3756 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3572 0.3496 0.418</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_16">
+      <static>true</static>
+      <pose>1.9 -13 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.6649 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.10900000000000001</radius>
+              <length>1.3298</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.5914 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.8284 0.7521 0.8393</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.4905 0.109 1.417 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5777 0.545 0.5886</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.4251 -0.0545 1.7004 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.6104 0.545 0.7085</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0327 0.2834 1.9729 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5123 0.5014 0.5995</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_17">
+      <static>true</static>
+      <pose>8.4 -11.8 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.5002 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.082</radius>
+              <length>1.0004</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.1972 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.6232 0.5658 0.6314</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.369 0.082 1.066 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4346 0.41 0.4428</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3198 -0.041 1.2792 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4592 0.41 0.533</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0246 0.2132 1.4842 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3854 0.3772 0.451</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_18">
+      <static>true</static>
+      <pose>13.3 -13 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.6466 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.10600000000000001</radius>
+              <length>1.2932000000000001</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.5476 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.8056 0.7314 0.8162</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.477 0.106 1.378 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5618 0.53 0.5724</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.4134 -0.053 1.6536 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5936 0.53 0.689</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0318 0.2756 1.9186 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4982 0.4876 0.583</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_19">
+      <static>true</static>
+      <pose>22 -12.2 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.6649 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.10900000000000001</radius>
+              <length>1.3298</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.5914 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.8284 0.7521 0.8393</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.4905 0.109 1.417 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5777 0.545 0.5886</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.4251 -0.0545 1.7004 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.6104 0.545 0.7085</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0327 0.2834 1.9729 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5123 0.5014 0.5995</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_20">
+      <static>true</static>
+      <pose>28.4 -10.3 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.5063 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.083</radius>
+              <length>1.0126</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.2118 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.6308 0.5727 0.6391</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.3735 0.083 1.079 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4399 0.415 0.4482</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3237 -0.0415 1.2948 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4648 0.415 0.5395</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0249 0.2158 1.5023 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3901 0.3818 0.4565</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_21">
+      <static>true</static>
+      <pose>34 -10.7 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.6039 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.099</radius>
+              <length>1.2078</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.4454 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.7524 0.6831 0.7623</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.4455 0.099 1.287 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5247 0.495 0.5346</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3861 -0.0495 1.5444 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5544 0.495 0.6435</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0297 0.2574 1.7919 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4653 0.4554 0.5445</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_22">
+      <static>true</static>
+      <pose>40 -9.4 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.5185 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.085</radius>
+              <length>1.037</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.241 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.646 0.5865 0.6545</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.3825 0.085 1.105 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4505 0.425 0.459</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3315 -0.0425 1.326 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.476 0.425 0.5525</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0255 0.221 1.5385 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3995 0.391 0.4675</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_23">
+      <static>true</static>
+      <pose>44.2 -9.2 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.6466 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.10600000000000001</radius>
+              <length>1.2932000000000001</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.5476 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.8056 0.7314 0.8162</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.477 0.106 1.378 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5618 0.53 0.5724</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.4134 -0.053 1.6536 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5936 0.53 0.689</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0318 0.2756 1.9186 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4982 0.4876 0.583</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_24">
+      <static>true</static>
+      <pose>47 8.2 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.4453 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.073</radius>
+              <length>0.8906</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.0658 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5548 0.5037 0.5621</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.3285 0.073 0.949 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3869 0.365 0.3942</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.2847 -0.0365 1.1388 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4088 0.365 0.4745</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0219 0.1898 1.3213 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3431 0.3358 0.4015</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_25">
+      <static>true</static>
+      <pose>47 -7.5 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.5185 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.085</radius>
+              <length>1.037</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.241 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.646 0.5865 0.6545</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.3825 0.085 1.105 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4505 0.425 0.459</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3315 -0.0425 1.326 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.476 0.425 0.5525</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0255 0.221 1.5385 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3995 0.391 0.4675</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_26">
+      <static>true</static>
+      <pose>49.8 8.2 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.5917 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.097</radius>
+              <length>1.1834</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.4162 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.7372 0.6693 0.7469</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.4365 0.097 1.261 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5141 0.485 0.5238</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3783 -0.0485 1.5132 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5432 0.485 0.6305</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0291 0.2522 1.7557 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4559 0.4462 0.5335</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_27">
+      <static>true</static>
+      <pose>49.8 -7.5 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.4453 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.073</radius>
+              <length>0.8906</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.0658 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5548 0.5037 0.5621</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.3285 0.073 0.949 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3869 0.365 0.3942</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.2847 -0.0365 1.1388 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4088 0.365 0.4745</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0219 0.1898 1.3213 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3431 0.3358 0.4015</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_28">
+      <static>true</static>
+      <pose>52.6 8.2 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.5185 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.085</radius>
+              <length>1.037</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.241 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.646 0.5865 0.6545</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.3825 0.085 1.105 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4505 0.425 0.459</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3315 -0.0425 1.326 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.476 0.425 0.5525</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0255 0.221 1.5385 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3995 0.391 0.4675</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_29">
+      <static>true</static>
+      <pose>52.6 -7.5 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.5917 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.097</radius>
+              <length>1.1834</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.4162 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.7372 0.6693 0.7469</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.4365 0.097 1.261 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5141 0.485 0.5238</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3783 -0.0485 1.5132 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5432 0.485 0.6305</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0291 0.2522 1.7557 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4559 0.4462 0.5335</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_30">
+      <static>true</static>
+      <pose>55.4 8.2 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.4453 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.073</radius>
+              <length>0.8906</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.0658 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5548 0.5037 0.5621</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.3285 0.073 0.949 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3869 0.365 0.3942</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.2847 -0.0365 1.1388 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4088 0.365 0.4745</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0219 0.1898 1.3213 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3431 0.3358 0.4015</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_31">
+      <static>true</static>
+      <pose>55.4 -7.5 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.5185 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.085</radius>
+              <length>1.037</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.241 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.646 0.5865 0.6545</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.3825 0.085 1.105 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4505 0.425 0.459</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3315 -0.0425 1.326 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.476 0.425 0.5525</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0255 0.221 1.5385 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3995 0.391 0.4675</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_32">
+      <static>true</static>
+      <pose>58.2 8.2 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.5917 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.097</radius>
+              <length>1.1834</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.4162 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.7372 0.6693 0.7469</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.4365 0.097 1.261 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5141 0.485 0.5238</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3783 -0.0485 1.5132 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5432 0.485 0.6305</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0291 0.2522 1.7557 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4559 0.4462 0.5335</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_33">
+      <static>true</static>
+      <pose>58.2 -7.5 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.4453 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.073</radius>
+              <length>0.8906</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.0658 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5548 0.5037 0.5621</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.3285 0.073 0.949 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3869 0.365 0.3942</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.2847 -0.0365 1.1388 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4088 0.365 0.4745</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0219 0.1898 1.3213 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3431 0.3358 0.4015</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_34">
+      <static>true</static>
+      <pose>61 8.2 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.5185 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.085</radius>
+              <length>1.037</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.241 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.646 0.5865 0.6545</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.3825 0.085 1.105 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4505 0.425 0.459</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3315 -0.0425 1.326 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.476 0.425 0.5525</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0255 0.221 1.5385 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.3995 0.391 0.4675</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="belt_tree_35">
+      <static>true</static>
+      <pose>61 -7.5 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="trunk">
+          <pose>0 0 0.5917 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.097</radius>
+              <length>1.1834</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.27 0.2 0.13 1</ambient>
+            <diffuse>0.27 0.2 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_0">
+          <pose>0 0 1.4162 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.7372 0.6693 0.7469</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_1">
+          <pose>-0.4365 0.097 1.261 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5141 0.485 0.5238</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.19 0.32 0.13 1</ambient>
+            <diffuse>0.19 0.32 0.13 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_2">
+          <pose>0.3783 -0.0485 1.5132 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.5432 0.485 0.6305</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.24 0.37 0.16 1</ambient>
+            <diffuse>0.24 0.37 0.16 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="crown_3">
+          <pose>0.0291 0.2522 1.7557 0 0 0</pose>
+          <cast_shadows>true</cast_shadows>
+          <geometry>
+            <ellipsoid>
+              <radii>0.4559 0.4462 0.5335</radii>
+            </ellipsoid>
+          </geometry>
+          <material>
+            <ambient>0.16 0.28 0.15 1</ambient>
+            <diffuse>0.16 0.28 0.15 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="main_approach_corridor">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="main_approach_verge">
+          <pose>0 0 0 0 0 0</pose>
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <mesh>
+              <uri>../assets/main_approach_verge.obj</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.43 0.39 0.29 1</ambient>
+            <diffuse>0.43 0.39 0.29 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+        <visual name="main_approach_pavement">
+          <pose>0 0 0 0 0 0</pose>
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <mesh>
+              <uri>../assets/main_approach_pavement.obj</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <ambient>0.2 0.24 0.27 1</ambient>
+            <diffuse>0.2 0.24 0.27 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="apron_connection">
+      <static>true</static>
+      <pose>-4 2.8 0.012 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>4.2 1.8 0.007</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2 0.24 0.27 1</ambient>
+            <diffuse>0.2 0.24 0.27 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="approach_stripe_-12">
+      <static>true</static>
+      <pose>-12 -4.8397545 0.014 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.35 0.052 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.82 0.82 0.75 1</ambient>
+            <diffuse>0.82 0.82 0.75 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="approach_stripe_-8">
+      <static>true</static>
+      <pose>-8 -4.9056972 0.014 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.35 0.052 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.82 0.82 0.75 1</ambient>
+            <diffuse>0.82 0.82 0.75 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="approach_stripe_-4">
+      <static>true</static>
+      <pose>-4 -5.009165 0.014 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.35 0.052 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.82 0.82 0.75 1</ambient>
+            <diffuse>0.82 0.82 0.75 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="approach_stripe_0">
+      <static>true</static>
+      <pose>0 -5.1250748 0.014 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.35 0.052 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.82 0.82 0.75 1</ambient>
+            <diffuse>0.82 0.82 0.75 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="approach_stripe_4">
+      <static>true</static>
+      <pose>4 -5.2472879 0.014 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.35 0.052 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.82 0.82 0.75 1</ambient>
+            <diffuse>0.82 0.82 0.75 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="approach_stripe_8">
+      <static>true</static>
+      <pose>8 -5.58861 0.014 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.35 0.052 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.82 0.82 0.75 1</ambient>
+            <diffuse>0.82 0.82 0.75 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="approach_stripe_12">
+      <static>true</static>
+      <pose>12 -5.9757913 0.014 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.35 0.052 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.82 0.82 0.75 1</ambient>
+            <diffuse>0.82 0.82 0.75 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="approach_stripe_16">
+      <static>true</static>
+      <pose>16 -6.0986928 0.014 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.35 0.052 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.82 0.82 0.75 1</ambient>
+            <diffuse>0.82 0.82 0.75 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="approach_stripe_20">
+      <static>true</static>
+      <pose>20 -6.0677868 0.014 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.35 0.052 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.82 0.82 0.75 1</ambient>
+            <diffuse>0.82 0.82 0.75 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="approach_stripe_24">
+      <static>true</static>
+      <pose>24 -5.9991567 0.014 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.35 0.052 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.82 0.82 0.75 1</ambient>
+            <diffuse>0.82 0.82 0.75 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="approach_stripe_28">
+      <static>true</static>
+      <pose>28 -5.9011634 0.014 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.35 0.052 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.82 0.82 0.75 1</ambient>
+            <diffuse>0.82 0.82 0.75 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="approach_stripe_32">
+      <static>true</static>
+      <pose>32 -5.7869457 0.014 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.35 0.052 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.82 0.82 0.75 1</ambient>
+            <diffuse>0.82 0.82 0.75 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="approach_stripe_36">
+      <static>true</static>
+      <pose>36 -5.6744201 0.014 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.35 0.052 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.82 0.82 0.75 1</ambient>
+            <diffuse>0.82 0.82 0.75 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="approach_stripe_40">
+      <static>true</static>
+      <pose>40 -5.5862809 0.014 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>1.35 0.052 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.82 0.82 0.75 1</ambient>
+            <diffuse>0.82 0.82 0.75 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_apron">
+      <static>true</static>
+      <pose>64.69 -1.73 0.017 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>8.1 5.5 0.009</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.25 0.29 0.29 1</ambient>
+            <diffuse>0.25 0.29 0.29 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_mark_1">
+      <static>true</static>
+      <pose>67.69 0 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="disc">
+          <pose>0 0 0.024 0 0 0</pose>
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.54</radius>
+              <length>0.003</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.15 0.26 0.24 1</ambient>
+            <diffuse>0.15 0.26 0.24 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_1_rail_-1">
+      <static>true</static>
+      <pose>67.49 0 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.07 0.49 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_1_rail_1">
+      <static>true</static>
+      <pose>67.89 0 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.07 0.49 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_1_bar">
+      <static>true</static>
+      <pose>67.69 0 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.42 0.065 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_mark_2">
+      <static>true</static>
+      <pose>66.69 -1.7320508 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="disc">
+          <pose>0 0 0.024 0 0 0</pose>
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.54</radius>
+              <length>0.003</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.15 0.26 0.24 1</ambient>
+            <diffuse>0.15 0.26 0.24 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_2_rail_-1">
+      <static>true</static>
+      <pose>66.49 -1.7320508 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.07 0.49 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_2_rail_1">
+      <static>true</static>
+      <pose>66.89 -1.7320508 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.07 0.49 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_2_bar">
+      <static>true</static>
+      <pose>66.69 -1.7320508 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.42 0.065 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_mark_3">
+      <static>true</static>
+      <pose>65.69 0 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="disc">
+          <pose>0 0 0.024 0 0 0</pose>
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.54</radius>
+              <length>0.003</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.15 0.26 0.24 1</ambient>
+            <diffuse>0.15 0.26 0.24 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_3_rail_-1">
+      <static>true</static>
+      <pose>65.49 0 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.07 0.49 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_3_rail_1">
+      <static>true</static>
+      <pose>65.89 0 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.07 0.49 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_3_bar">
+      <static>true</static>
+      <pose>65.69 0 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.42 0.065 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_mark_4">
+      <static>true</static>
+      <pose>63.69 0 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="disc">
+          <pose>0 0 0.024 0 0 0</pose>
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.54</radius>
+              <length>0.003</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.15 0.26 0.24 1</ambient>
+            <diffuse>0.15 0.26 0.24 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_4_rail_-1">
+      <static>true</static>
+      <pose>63.49 0 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.07 0.49 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_4_rail_1">
+      <static>true</static>
+      <pose>63.89 0 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.07 0.49 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_4_bar">
+      <static>true</static>
+      <pose>63.69 0 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.42 0.065 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_mark_5">
+      <static>true</static>
+      <pose>61.69 0 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="disc">
+          <pose>0 0 0.024 0 0 0</pose>
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.54</radius>
+              <length>0.003</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.15 0.26 0.24 1</ambient>
+            <diffuse>0.15 0.26 0.24 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_5_rail_-1">
+      <static>true</static>
+      <pose>61.49 0 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.07 0.49 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_5_rail_1">
+      <static>true</static>
+      <pose>61.89 0 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.07 0.49 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_5_bar">
+      <static>true</static>
+      <pose>61.69 0 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.42 0.065 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_mark_6">
+      <static>true</static>
+      <pose>64.69 -1.7320508 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="disc">
+          <pose>0 0 0.024 0 0 0</pose>
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.54</radius>
+              <length>0.003</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.15 0.26 0.24 1</ambient>
+            <diffuse>0.15 0.26 0.24 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_6_rail_-1">
+      <static>true</static>
+      <pose>64.49 -1.7320508 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.07 0.49 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_6_rail_1">
+      <static>true</static>
+      <pose>64.89 -1.7320508 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.07 0.49 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_6_bar">
+      <static>true</static>
+      <pose>64.69 -1.7320508 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.42 0.065 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_mark_7">
+      <static>true</static>
+      <pose>63.69 -3.4641016 0 0 0 0</pose>
+      <link name="scenery">
+        <visual name="disc">
+          <pose>0 0 0.024 0 0 0</pose>
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <cylinder>
+              <radius>0.54</radius>
+              <length>0.003</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.15 0.26 0.24 1</ambient>
+            <diffuse>0.15 0.26 0.24 1</diffuse>
+            <specular>.015 .015 .015 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_7_rail_-1">
+      <static>true</static>
+      <pose>63.49 -3.4641016 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.07 0.49 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_7_rail_1">
+      <static>true</static>
+      <pose>63.89 -3.4641016 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.07 0.49 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+    <model name="landing_7_bar">
+      <static>true</static>
+      <pose>63.69 -3.4641016 0.029 0 0 0</pose>
+      <link name="body">
+        <visual name="paint">
+          <geometry>
+            <box>
+              <size>0.42 0.065 0.003</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.88 0.82 0.55 1</ambient>
+            <diffuse>0.88 0.82 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>
