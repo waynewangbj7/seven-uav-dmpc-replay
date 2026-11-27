@@ -19,7 +19,7 @@ ROLE_COLORS = {
     "follower": (0.35, 0.91, 0.65),
     "single": (0.76, 0.64, 0.98),
 }
-DEFAULT_ARCHIVE = Path("/mnt/e/Codex/2026-10-22/w")
+DEFAULT_ARCHIVE = Path(__file__).resolve().parent.parent / "case-data"
 DEFAULT_MESH = Path(__file__).with_name("mavic_style.dae")
 ROTOR_MESH = DEFAULT_MESH.with_name("mavic_rotor.dae")
 ROTOR_HUBS = ((32.0, 35.0, 1), (32.0, -35.0, -1),
